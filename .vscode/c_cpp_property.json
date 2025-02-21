@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "MinGW",
+            "includePath": [
+                "${workspaceFolder}",
+                "C:/Users/Koju/OneDrive/Desktop/DSA traffic simulator/src/include/SDL2"
+            ],
+            "defines": [],
+            "compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
