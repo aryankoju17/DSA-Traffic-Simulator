@@ -356,7 +356,21 @@ void drawLaneCongestion(SDL_Renderer *renderer, int x, int y, int numVehicles, c
         SDL_RenderFillRect(renderer, &lineRect);
     }
     
-
+    // Draw markers for thresholds
+    SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
+    SDL_RenderDrawLine(renderer, x + barWidth/3, y, x + barWidth/3, y + barHeight);
+    SDL_RenderDrawLine(renderer, x + 2*barWidth/3, y, x + 2*barWidth/3, y + barHeight);
+    
+    // Label for the lane with improved visibility
+    char label[20];
+    sprintf(label, "Lane %c: %d", lane, numVehicles);
+    
+    // Draw a small contrasting background for text
+    SDL_Rect textBg = {x + 5, y + 5, 80, 15};
+    SDL_SetRenderDrawColor(renderer, 10, 10, 10, 180);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_RenderFillRect(renderer, &textBg);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
     
     // Draw text
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
