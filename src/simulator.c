@@ -1267,35 +1267,7 @@ void* readAndParseFile(void* arg) {
 }
 
 // drwaing a single vehicle as a colored rectangle and optionally display its ID.
-void drawVehicle(SDL_Renderer *renderer, TTF_Font *font, Vehicle *v, int pos) {
-    int w = 25, h = 15;
-    int x = 0, y = 0;
-    // Lateral separation offset based on queue position
-    int offset = (pos % 2 == 0) ? -10 : 10;
-
-    if (v->turning) {
-        // Use the turning coordinates if the vehicle is turning
-        x = (int)v->turnPosX;
-        y = (int)v->turnPosY;
-    } else {
-        switch (v->lane) {
-            case 'A': {
-                int offsetX = (v->lane_number == 1) ? -LANE_WIDTH :
-                              (v->lane_number == 3) ? LANE_WIDTH : 0;
-                x = WINDOW_WIDTH/2 - w/2 + offsetX;
-                y = (int)v->animPos;
-                break;
-            }
-            case 'B': {
-                int offsetX = (v->lane_number == 1) ? LANE_WIDTH : (v->lane_number == 3) ? -LANE_WIDTH : 0;
-                x = WINDOW_WIDTH/2 - w/2 + offsetX;
-                y = (int)v->animPos;
-                break;
-            }
-            case 'C': {
-                int offsetY = (v->lane_number == 1) ? -LANE_WIDTH :
-                              (v->lane_number == 3) ? LANE_WIDTH : 0;
-                x = (int)v->animPos;
+;
                 y = WINDOW_HEIGHT/2 - h/2 + offsetY;
                 break;
             }
