@@ -399,14 +399,14 @@ void drawUI(SDL_Renderer *renderer, SharedData *sharedData) {
     SDL_RenderFillRect(renderer, &uiPanel);
     
     SDL_Rect uiPanelVert = {panelX, panelY + cornerRadius, panelWidth, panelHeight - 2*cornerRadius};
-    SDL_RenderFillRect(renderer, &uiPanelVert); {
+    SDL_RenderFillRect(renderer, &uiPanelVert);
+    
+    // Draw the corners as filled circles (approximated with quads)
+    for (int i = 0; i <= cornerRadius; i++) {
         for (int j = 0; j <= cornerRadius; j++) {
             if (i*i + j*j <= cornerRadius*cornerRadius) {
                 // Top-left corner
-                SDL_RenderDrawPoint(renderer
-    
-    // Draw the corners as filled circles (approximated with quads)
-    for (int i = 0; i <= cornerRadius; i++), panelX + cornerRadius - i, panelY + cornerRadius - j);
+                SDL_RenderDrawPoint(renderer, panelX + cornerRadius - i, panelY + cornerRadius - j);
                 // Top-right corner
                 SDL_RenderDrawPoint(renderer, panelX + panelWidth - cornerRadius + i, panelY + cornerRadius - j);
                 // Bottom-left corner
