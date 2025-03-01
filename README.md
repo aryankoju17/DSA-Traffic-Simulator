@@ -23,6 +23,9 @@ Welcome to the Traffic Junction Simulator, a project designed to simulate and vi
 ## Overview
 The Traffic Junction Simulator provides a real-time simulation of a four-way traffic junction. It utilizes SDL2 for graphics rendering and SDL2_ttf for text output. The simulator models realistic traffic behavior, including smooth vehicle animations, adaptive signal control, and emergency vehicle prioritization.
 
+![Traffic Junction Simulator Demo](demo.gif)
+
+
 ## Key Features
 
 ### Vehicle Management
