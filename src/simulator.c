@@ -1830,15 +1830,7 @@ if (v->lane == 'B' && v->lane_number == 3) {
         v->targetAngle = -90.0f; // Counter-clockwise rotation for left turn
         
         // Save starting position
-        v->turnPosX = WINDOW_WIDTH/2 - LANE_WIDTH;        // BL3 X position
-        v->turnPosY = WINDOW_HEIGHT/2 + ROAD_WIDTH/2 + 20; // Current Y position
-    }
-    
-    if (v->turning) {
-        // Use rotation animation instead of Bezier curve
-        rotateVehicle(v, delta);
-        continue; // Skip other movement processing
-    }
+  
     
     // Normal movement logic for BL3 vehicles not yet turning
     float nextPos = v->animPos - speed * delta;
