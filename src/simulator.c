@@ -283,7 +283,35 @@ void swap(int *a, int *b) {
 }
 
 
+void drawArrwow(SDL_Renderer* renderer, int x1, int y1, int x2, int y2, int x3, int y3) {
+    // Sort vertices by ascending Y (bubble sort approach)
+    if (y1 > y2) { swap(&y1, &y2); swap(&x1, &x2); }
+    if (y1 > y3) { swap(&y1, &y3); swap(&x1, &x3); }
+    if (y2 > y3) { swap(&y2, &y3); swap(&x2, &x3); }
 
+    // Compute slopes
+    float dx1 = (y2 - y1) ? (float)(x2 - x1) / (y2 - y1) : 0;
+    float dx2 = (y3 - y1) ? (float)(x3 - x1) / (y3 - y1) : 0;
+    float dx3 = (y3 - y2) ? (float)(x3 - x2) / (y3 - y2) : 0;
+
+    float sx1 = x1, sx2 = x1;
+
+    // Fill first part (top to middle)
+    for (int y = y1; y < y2; y++) {
+        SDL_RenderDrawLine(renderer, (int)sx1, y, (int)sx2, y);
+        sx1 += dx1;
+        sx2 += dx2;
+    }
+
+    sx1 = x2;
+
+    // Fill second part (middle to bottom)
+    for (int y = y2; y <= y3; y++) {
+        SDL_RenderDrawLine(renderer, (int)sx1, y, (int)sx2, y);
+        sx1 += dx3;
+        sx2 += dx2;
+    }
+}
 
 #define MAX_VEHICLES 10
 // Function to draw the lane congestion view (progress bars)
