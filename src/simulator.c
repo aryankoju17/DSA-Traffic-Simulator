@@ -723,18 +723,7 @@ void drawRoadsAndLane(SDL_Renderer *renderer, TTF_Font *font) {
     displayText(renderer, font, "A", WINDOW_WIDTH/2 - 15, 20);
     
     // Lane B (South)
-    drawArrwow(renderer, 
-              WINDOW_WIDTH/2, WINDOW_HEIGHT - 60,  // base center point
-              WINDOW_WIDTH/2 - arrowBaseWidth/2, WINDOW_HEIGHT - 60 - arrowHeight,  // left corner
-              WINDOW_WIDTH/2 + arrowBaseWidth/2, WINDOW_HEIGHT - 60 - arrowHeight); // right corner
-    displayText(renderer, font, "B", WINDOW_WIDTH/2 - 15, WINDOW_HEIGHT - 40);
-    
-    // Lane C (East)
-    drawArrwow(renderer, 
-              WINDOW_WIDTH - 60, WINDOW_HEIGHT/2,  // base center point
-              WINDOW_WIDTH - 60 - arrowHeight, WINDOW_HEIGHT/2 - arrowBaseWidth/2,  // top corner
-              WINDOW_WIDTH - 60 - arrowHeight, WINDOW_HEIGHT/2 + arrowBaseWidth/2); // bottom corner
-    displayText(renderer, font, "C", WINDOW_WIDTH - 40, WINDOW_HEIGHT/2 - 15);
+    , "C", WINDOW_WIDTH - 40, WINDOW_HEIGHT/2 - 15);
     
     // Lane D (West)
     drawArrwow(renderer, 
