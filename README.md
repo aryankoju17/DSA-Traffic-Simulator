@@ -173,5 +173,5 @@ We welcome contributions to improve the Traffic Junction Simulator. Here's how y
 Feel free to check out the GitHub Repository for more details.
 
 ## References
-- SDL2 Documentation
-- GeeksforGeeks
+- SDL2 Documentation: [https://wiki.libsdl.org/](https://wiki.libsdl.org/)
+- GeeksforGeeks: https://www.geeksforgeeks.org/
