@@ -1860,61 +1860,6 @@ if (v->lane == 'B' && v->lane_number == 3) {
 }
 
         
-        if (v->lane == 'B' && v->lane_number == 2) {
-            if (activeLane != 'B') {
-                float nextPos = v->animPos - speed * delta;
-                if (i > 0) {
-                    int prevIdx = (queueB->front + i - 1) % MAX_QUEUE_SIZE;
-                    Vehicle *ahead = queueB->vehicles[prevIdx];
-                    if (nextPos - VEHICLE_LENGTH - VEHICLE_GAP < ahead->animPos)
-                        nextPos = ahead->animPos + VEHICLE_LENGTH + VEHICLE_GAP;
-                    // if (ahead->lane == v->lane && ahead->lane_number == v->lane_number &&
-                    //     !ahead->turning) {
-                    //     if (nextPos - VEHICLE_LENGTH - b_l2_vehicle_gap < ahead->animPos)
-                    //         nextPos = ahead->animPos + VEHICLE_LENGTH + b_l2_vehicle_gap;
-                    // }
-                }
-                if (nextPos < stopB)
-                    v->animPos = stopB;
-                else
-                    v->animPos = nextPos;
-                continue;
-            }
-
-            // When light is green, begin turning from BL2 to AL1
-            if (!v->turning && v->animPos <= stopB) {
-                printf("BL2 Vehicle %s reached threshold. Starting turn to AL1.\n", v->id);
-                v->turning = true;
-                v->turnProgress = 0.0f;
-                v->turnPosX = WINDOW_WIDTH/2;
-                v->turnPosY = stopB;
-            }
-            
-            if (v->turning) {
-                float turnSpeed = 0.001f;
-                v->turnProgress += delta * turnSpeed * 0.75;
-                if (v->turnProgress > 1.0f)
-                    v->turnProgress = 1.0f;
-                float sX = WINDOW_WIDTH/2, sY = stopB;
-                // Adjust control points to match CL2 style curve
-                float cX = sX - 50.0f;
-                float targetX = WINDOW_WIDTH/2 - LANE_WIDTH;
-                float targetY = stopA;
-                float cY = sY + (targetY - sY) / 2;
-                float t = v->turnProgress;
-                v->turnPosX = (1-t)*(1-t)*sX + 2*(1-t)*t*cX + t*t*targetX;
-                v->turnPosY = (1-t)*(1-t)*sY + 2*(1-t)*t*cY + t*t*targetY;
-                if (v->turnProgress >= 1.0f) {
-                    v->lane = 'A';
-                    v->lane_number = 1;
-                    v->turning = false;
-                    v->turnProgress = 0.0f;
-                    v->animPos = targetY;
-                    printf("BL2 Vehicle %s completed turn into AL1. Final pos: %f\n", v->id, targetY);
-                }
-                continue;
-            }
-        }
         
         float nextPos = v->animPos - speed * delta;
         
