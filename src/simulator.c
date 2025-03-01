@@ -1141,7 +1141,130 @@ int countVehiclesLaneA(VehicleQueue* queue) {
 }
 // Modified chequeQueue to serve Road A with highest priority.
 
+void* chequeQueue(void* arg) {
+    SharedData* sharedData = (SharedData*)arg;
+    while (1) {
+        // Priority: Serve Road A if any vehicles waiting.
+        int countA = countVehiclesLaneA(queueA);
+            if (countA > 5) {
+                sharedData->nextLight = 1; // 1 corresponds to Road A.
+                sleep(3);  // Fixed green time for Road A priority.
+            } else {
+                // Normal lanes
+                // Check for priority condition first (>10 vehicles)
+                int priorityB = countVehicles(queueB, 2);
+                int priorityC = countVehicles(queueC, 2);
+                int priorityD = countVehicles(queueD, 2);
 
+                // Handle priority roads first
+                if (priorityB > 10) {
+                    sharedData->nextLight = 2; // B lane
+                    while (countVehicles(queueB, 2) > 5) {
+                        sleep(T_PASS_TIME);
+                    }
+                } else if (priorityC > 10) {
+                    sharedData->nextLight = 3; // C lane
+                    while (countVehicles(queueC, 2) > 5) {
+                        sleep(T_PASS_TIME);
+                    }
+                } else if (priorityD > 10) {
+                    sharedData->nextLight = 4; // D lane
+                    while (countVehicles(queueD, 2) > 5) {
+                        sleep(T_PASS_TIME);
+                    }
+                } else {
+                    // Normal operation when no priority condition
+                    int L1 = countVehicles(queueA, 2); // AL2
+                    int L2 = countVehicles(queueB, 2); // BL2
+                    int L3 = countVehicles(queueC, 2); // CL2
+                    int L4 = countVehicles(queueD, 2); // DL2
+                    
+                    // Calculate average vehicles waiting (V)
+                    float V = (float)(L1 + L2 + L3 +L4) / 4.0f;
+                    
+                    // Calculate green light duration
+                    int greenTime = (int)(V * T_PASS_TIME);
+                    if (greenTime < 1) greenTime = 1;
+                    
+                     // Serve each lane based on calculated time
+                    if (L1 > 0) {
+                        sharedData->nextLight = 1; // A lane
+                        sleep(greenTime);
+                    }
+                    if (L2 > 0) {
+                        sharedData->nextLight = 2; // B lane
+                        sleep(greenTime);
+                    }
+                    if (L3 > 0) {
+                        sharedData->nextLight = 3; // C lane
+                        sleep(greenTime);
+                    }
+                    if (L4 > 0) {
+                        sharedData->nextLight = 4; // D lane
+                        sleep(greenTime);
+                    }
+                }
+            }
+    }
+    return NULL;
+}
+
+void* readAndParseFile(void* arg) {
+    while (1) {
+        FILE* file = fopen(VEHICLE_FILE, "r");
+        if (!file) {
+            perror("Error opening file");
+            sleep(2);
+            continue;
+        }
+        char line[MAX_LINE_LENGTH];
+        while (fgets(line, sizeof(line), file)) {
+            // Remove newline if present
+            line[strcspn(line, "\n")] = 0;
+            // Split using ':'
+            char* vehicleNumber = strtok(line, ":");
+            char* road = strtok(NULL, ":");
+            if (vehicleNumber && road) {
+                Vehicle* newVehicle = (Vehicle*)malloc(sizeof(Vehicle));
+                strncpy(newVehicle->id, vehicleNumber, MAX_VEHICLE_ID - 1);
+                newVehicle->id[MAX_VEHICLE_ID - 1] = '\0';
+                newVehicle->lane = road[0];
+                newVehicle->arrivalTime = time(NULL);
+                newVehicle->isEmergency = (strstr(vehicleNumber, "EMG") != NULL);
+
+                if (strstr(vehicleNumber, "L1"))
+                    newVehicle->lane_number = 1;
+                else if (strstr(vehicleNumber, "L2"))
+                    newVehicle->lane_number = 2;
+                else if (strstr(vehicleNumber, "L3"))
+                    newVehicle->lane_number = 3;
+                else 
+                    newVehicle->lane_number = 2; // default
+
+                // Initialize animPos based on lane:
+                if (road[0] == 'A')
+                    newVehicle->animPos = 0.0f;                
+                else if (road[0] == 'B')
+                    newVehicle->animPos = (float)WINDOW_HEIGHT;
+                else if (road[0] == 'C')
+                    newVehicle->animPos = (float)WINDOW_WIDTH;
+                else if (road[0] == 'D')
+                    newVehicle->animPos = 0.0f;
+
+                switch(newVehicle->lane) {
+                    case 'A': enqueue(queueA, newVehicle); break;
+                    case 'B': enqueue(queueB, newVehicle); break;
+                    case 'C': enqueue(queueC, newVehicle); break;
+                    case 'D': enqueue(queueD, newVehicle); break;
+                    default: free(newVehicle);
+                }
+            }
+        }
+        fclose(file);
+        sleep(2);
+    }
+    return NULL;
+}
 
 // drwaing a single vehicle as a colored rectangle and optionally display its ID.
 void drawVehicle(SDL_Renderer *renderer, TTF_Font *font, Vehicle *v, int pos) {
