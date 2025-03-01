@@ -670,22 +670,7 @@ void drawRoadsAndLane(SDL_Renderer *renderer, TTF_Font *font) {
         }
     }
     
-    // Draw lanes for horizontal roads (C and D)
-    for (int i = 1; i < 3; i++) {
-        int y = WINDOW_HEIGHT/2 - ROAD_WIDTH/2 + i * LANE_WIDTH;
-        
-        // West of intersection
-        for (int x = 20; x < WINDOW_WIDTH/2 - ROAD_WIDTH/2; x += 30) {
-            SDL_Rect dash = {x, y-1, 15, 2};
-            SDL_RenderFillRect(renderer, &dash);
-        }
-        
-        // East of intersection
-        for (int x = WINDOW_WIDTH/2 + ROAD_WIDTH/2; x < WINDOW_WIDTH - 20; x += 30) {
-            SDL_Rect dash = {x, y-1, 15, 2};
-            SDL_RenderFillRect(renderer, &dash);
-        }
-    }
+
     
     // Draw solid white lines at road edges
     SDL_SetRenderDrawColor(renderer, 255, 255, 240, 255);
