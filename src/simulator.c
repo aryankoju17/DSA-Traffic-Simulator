@@ -1116,20 +1116,7 @@ void refreshLight(SDL_Renderer *renderer, SharedData* sharedData) {
     }
 }
 
-// Define the estimated time (in seconds) for one vehicle to pass.
-#define T_PASS_TIME 2
-// New helper: Count vehicles in a given queue with a specific lane number.
-int countVehicles(VehicleQueue* queue, int lane_num) {
-    int count = 0;
-    pthread_mutex_lock(&queue->lock);
-    for (int i = 0; i < queue->size; i++) {
-        int idx = (queue->front + i) % MAX_QUEUE_SIZE;
-        if (queue->vehicles[idx]->lane_number == lane_num)
-            count++;
-        }
-    pthread_mutex_unlock(&queue->lock);
-    return count;
-    }
+
 
 // New helper: Count all vehicles in Road A (queueA)
 int countVehiclesLaneA(VehicleQueue* queue) {
