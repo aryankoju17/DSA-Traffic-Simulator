@@ -533,7 +533,19 @@ void drawUI(SDL_Renderer *renderer, SharedData *sharedData) {
     // Traffic flow circular background
     SDL_SetRenderDrawColor(renderer, 30, 30, 30, 200);
     
-
+    // Draw filled circle (approximated with multiple rectangles)
+    for (int i = 0; i < flowIndicatorSize; i++) {
+        int arcHeight = (int)sqrt(flowIndicatorSize*flowIndicatorSize/4 - (i-flowIndicatorSize/2)*(i-flowIndicatorSize/2));
+        if (arcHeight > 0) {
+            SDL_Rect arcRect = {
+                flowIndicatorX + i, 
+                flowIndicatorY + flowIndicatorSize/2 - arcHeight, 
+                1, 
+                arcHeight*2
+            };
+            SDL_RenderFillRect(renderer, &arcRect);
+        }
+    }
     
     // Flow indicator color based on overall traffic condition
     int intensity = (totalVehicles * 255) / (MAX_VEHICLES * 2);
