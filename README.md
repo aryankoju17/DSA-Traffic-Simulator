@@ -131,6 +131,7 @@ Download and install SDL2 and SDL2_ttf from the official SDL website. Ensure the
    Make sure the vehicles.data file is in the same directory as the executable.
    ```bash
    ./sim.exe
+   ./tra_gen.exe
    ```
 
 ## Project Structure
