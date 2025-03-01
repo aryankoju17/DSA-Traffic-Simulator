@@ -961,7 +961,30 @@ void drawLightForC(SDL_Renderer* renderer, bool isRed) {
     }
 }
 
-
+void drawLightForD(SDL_Renderer* renderer, bool isRed) {
+    // Traffic light housing
+    SDL_Rect lightBox = {272, 325, 45, 90};
+    SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255);
+    SDL_RenderFillRect(renderer, &lightBox);
+    
+    // Light box border
+    SDL_SetRenderDrawColor(renderer, 70, 70, 70, 255);
+    SDL_RenderDrawRect(renderer, &lightBox);
+    
+    // Add light side cap
+    SDL_Rect lightCap = {268, 325, 4, 90};
+    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
+    SDL_RenderFillRect(renderer, &lightCap);
+    
+    // Add light stand
+    SDL_Rect lightStand = {317, 365, 15, 10};
+    SDL_SetRenderDrawColor(renderer, 70, 70, 70, 255);
+    SDL_RenderFillRect(renderer, &lightStand);
+    
+    // Light background
+    SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+    SDL_Rect innerBox = {273, 326, 43, 88};
+    SDL_RenderFillRect(renderer, &innerBox);
     
     // Left turn light - always green
     // Light housing
