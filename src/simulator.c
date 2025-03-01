@@ -781,18 +781,7 @@ void drawLightForA(SDL_Renderer* renderer, bool isRed) {
     SDL_RenderFillRect(renderer, &right_Light);
     
     // Add light glow
-    SDL_SetRenderDrawColor(renderer, 50, 200, 50, 100);
-    for (int i = 1; i <= 3; i++) {
-        SDL_Rect glow = {435-i, 280-i, 16+i*2, 16+i*2};
-        SDL_RenderDrawRect(renderer, &glow);
-    }
-    
-    // Straight light - controlled by traffic signal
-    // Light housing
-    SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255);
-    SDL_Rect straightHousing = {393, 278, 20, 20};
-    SDL_RenderFillRect(renderer, &straightHousing);
-    
+
     if(isRed) {
         // Red light with glow
         SDL_SetRenderDrawColor(renderer, 255, 30, 30, 255);
